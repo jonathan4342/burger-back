@@ -1,6 +1,4 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
@@ -20,8 +18,8 @@ import { ConfigModule } from '@nestjs/config';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '12345678',
-      database: 'hamburgueseria',
+      password: process.env.DATABASE_PASSWORD || 'root',
+      database: process.env.DATABASE || 'nest_db',
       entities: [Usuario,Estado],
       synchronize: true,
     }),ConfigModule.forRoot({ isGlobal: true }), ProductoModule, CorreoModule,],
