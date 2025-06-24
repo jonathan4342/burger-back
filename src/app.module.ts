@@ -15,13 +15,13 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [UsuarioModule, AuthModule,TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
+      host: process.env.DATABASE_HOST || 'localhost',
+      port: process.env.DATABASE_PORT ? parseInt(process.env.DATABASE_PORT, 10) : 3306,
+      username: process.env.DATABASE_USER || 'root',
       password: process.env.DATABASE_PASSWORD || 'root',
       database: process.env.DATABASE || 'nest_db',
       entities: [Usuario,Estado],
-      synchronize: true,
+      synchronize: false,
     }),ConfigModule.forRoot({ isGlobal: true }), ProductoModule, CorreoModule,],
   controllers: [AppController],
   providers: [AppService],
