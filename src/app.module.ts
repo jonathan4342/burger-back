@@ -10,20 +10,31 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { Estado } from './entities/estado.entity';
 import { ProductoModule } from './producto/producto.module';
 import { CorreoModule } from './correo/correo.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
-  imports: [UsuarioModule, AuthModule,TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DATABASE_HOST || 'localhost',
-      port: process.env.DATABASE_PORT ? parseInt(process.env.DATABASE_PORT, 10) : 3306,
-      username: process.env.DATABASE_USER || 'root',
-      password: process.env.DATABASE_PASSWORD || 'root',
-      database: process.env.DATABASE || 'nest_db',
-      entities: [Usuario,Estado],
-      synchronize: false,
-    }),ConfigModule.forRoot({ isGlobal: true }), ProductoModule, CorreoModule,],
+  imports: [
+    UsuarioModule,
+    AuthModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get<string>('DATABASE_HOST') || 'localhost',
+        port: Number(configService.get<string>('DATABASE_PORT')) || 3306,
+        username: configService.get<string>('DATABASE_USER') || 'root',
+        password: configService.get<string>('DATABASE_PASSWORD') || 'root',
+        database: configService.get<string>('DATABASE') || 'nest_db',
+        entities: [Usuario, Estado],
+        synchronize: false,
+      }),
+    }),
+    ProductoModule,
+    CorreoModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
