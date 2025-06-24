@@ -7,6 +7,11 @@ export interface IAuthLoginResponse {
     access_token: string;
 }
 
+export interface RegisterDto {
+    nombre: string;
+    correo: string;
+    contrasena: string;
+}
 export interface IUsuario {
   id: number;
     nombre: string;
