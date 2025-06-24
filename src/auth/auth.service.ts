@@ -7,11 +7,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsuarioService } from '../usuario/usuario.service';
-import { IUsuario } from './auth.interface';
+import { IUsuario, RegisterDto } from './auth.interface';
+import { Usuario } from 'src/usuario/usuario.entity';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +20,18 @@ export class AuthService {
     private usuarioService: UsuarioService,
     private jwtService: JwtService,
   ) {}
+   async register(data: RegisterDto): Promise<Omit<Usuario, 'contrasena'>> {
+    const { nombre, correo, contrasena } = data;
 
+    const existe = await this.usuarioService.encontrarPorCorreo(correo);
+    if (existe) throw new ConflictException('El correo ya está registrado');
+    const usuario = await this.usuarioService.crear(
+      nombre,
+      correo,
+      contrasena,
+    );
+    return usuario
+  }
   async validarUsuario(correo: string, contrasena: string) {
     const usuario = await this.usuarioService.encontrarPorCorreo(correo);
     if (usuario && await bcrypt.compare(contrasena, usuario.contrasena)) {
