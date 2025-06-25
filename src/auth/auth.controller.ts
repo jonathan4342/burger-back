@@ -13,13 +13,15 @@ export class AuthController {
   @Post('register')
   async register(@Body() body: RegisterDto): Promise<IAuthLoginResponse> {
     const usuario = await this.authService.register(body);
-    return this.authService.login(usuario);
+    const token= await this.authService.login(usuario)
+     return { usuario,...token};
   }
   @Post('login')
   async login(@Body() body: IAuthLogin):Promise<IAuthLoginResponse> {
     const usuario = await this.authService.validarUsuario(body.correo, body.contrasena);
+    const token= await this.authService.login(usuario)
+    return { usuario,...token};
 
-    return this.authService.login(usuario);
   }
 }
 

@@ -346,82 +346,78 @@
             <h1>¡Pedido Confirmado!</h1>
             <p>Gracias por tu pedido, {{cliente}}.</p>
         </div>
-        <h2 class="section-title">Resumen de tu Pedido</h2>
-        {{#each items}}
-        <div class="item-row">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                <tr>
-                    <td width="80" style="padding-right: 16px;">
-                        <img src="https://img.freepik.com/psd-gratis/ilustracion-hamburguesa-dibujada-mano_23-2151600206.jpg?semt=ais_hybrid&w=740"
-                            alt="{{nombre}}" class="item-image">
-                    </td>
-                    <td class="item-details">
-                        <div class="item-name">{{nombre}}</div>
-                        <div class="item-quantity">Cantidad: {{cantidad}}</div>
+      <h2 class="section-title">Resumen de tu Pedido</h2>
+{{#each shopping}}
+<div class="item-row">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+            <td width="80" style="padding-right: 16px;">
+                <img src="https://img.freepik.com/psd-gratis/ilustracion-hamburguesa-dibujada-mano_23-2151600206.jpg?semt=ais_hybrid&w=740"
+                    alt="{{name}}" class="item-image">
+            </td>
+            <td class="item-details">
+                <div class="item-name">{{name}}</div>
+                <div class="item-quantity">Cantidad: {{quantity}}</div>
 
-                        {{#if adicionales}}
-                        <div class="item-customizations"><strong>Adicionales:</strong></div>
-                        <ul class="item-customizations">
-                            {{#each adicionales}}
-                            <li>{{nombre}} x{{cantidad}} - ${{precio}}</li>
-                            {{/each}}
-                        </ul>
-                        {{/if}}
+                {{#if customizations.additions.length}}
+                <div class="item-customizations"><strong>Adicionales:</strong></div>
+                <ul class="item-customizations">
+                    {{#each customizations.additions}}
+                    <li>{{name}} - ${{price}}</li>
+                    {{/each}}
+                </ul>
+                {{/if}}
 
-                        {{#if salsas}}
-                        <div class="item-customizations"><strong>Salsas:</strong></div>
-                        <ul class="item-customizations">
-                            {{#each salsas}}
-                            <li>{{nombre}} x{{cantidad}} - ${{precio}}</li>
-                            {{/each}}
-                        </ul>
-                        {{else}}
-                        <div class="item-customizations"><strong>Salsas:</strong> {{salsas}}</div>
-                        {{/if}}
+                {{#if customizations.sauces.length}}
+                <div class="item-customizations"><strong>Salsas:</strong></div>
+                <ul class="item-customizations">
+                    {{#each customizations.sauces}}
+                    <li>{{name}} - ${{price}}</li>
+                    {{/each}}
+                </ul>
+                {{/if}}
 
-                        {{#if papas}}
-                        <div class="item-customizations"><strong>Papas:</strong></div>
-                        <ul class="item-customizations">
-                            {{#each papas}}
-                            <li>{{nombre}} x{{cantidad}} - ${{precio}}</li>
-                            {{/each}}
-                        </ul>
-                        {{/if}}
+                {{#if sides.fries}}
+                <div class="item-customizations"><strong>Papas:</strong></div>
+                <ul class="item-customizations">
+                    <li>{{sides.fries.name}} - ${{sides.fries.price}}</li>
+                </ul>
+                {{/if}}
 
-                        {{#if bebidas}}
-                        <div class="item-customizations"><strong>Bebidas:</strong></div>
-                        <ul class="item-customizations">
-                            {{#each bebidas}}
-                            <li>{{nombre}} x{{cantidad}} - ${{precio}}</li>
-                            {{/each}}
-                        </ul>
-                        {{/if}}
+                {{#if sides.drink}}
+                <div class="item-customizations"><strong>Bebida:</strong></div>
+                <ul class="item-customizations">
+                    <li>{{sides.drink.name}} - ${{sides.drink.price}}</li>
+                </ul>
+                {{/if}}
+            </td>
+            <td class="item-price">${{totalPrice}}</td>
+        </tr>
+    </table>
+</div>
+{{/each}}
 
-                    </td>
-                    <td class="item-price">${{precio}}</td>
-                </tr>
-            </table>
-        </div>
-        {{/each}}
-        <div class="total-section">
-            <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                <tr>
-                    <td class="grand-total-label">Total:</td>
-                    <td class="grand-total-value">${{total}}</td>
-                </tr>
-            </table>
-        </div>
+<div class="total-section">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+            <td class="grand-total-label">Total:</td>
+            <td class="grand-total-value">${{total}}</td>
+        </tr>
+    </table>
+</div>
+
+
         <div class="contact-section">
             <h3 class="contact-title">¿Necesitas Ayuda?</h3>
             <p class="contact-text">Si tienes alguna pregunta sobre tu pedido, no dudes en contactarnos:</p>
             <div class="contact-info">
                 📞 Teléfono: (555) 123-4567<br>
-                📧 Email: pedidos@burgerhouse.com<br>
+                📧 Email: pedidos@burgerstock.com<br>
                 📍 Dirección: Calle Principal 123, Ciudad
             </div>
         </div>
         <div class="footer">
-            <p class="footer-text">Gracias por elegir Burger House. ¡Esperamos que disfrutes tu comida!</p>
+            <p class="footer-text">Gracias por elegir Burger Stock. ¡Esperamos que disfrutes tu comida!</p>
             <p class="footer-links">
                 <a href="#">Seguir mi Pedido</a> |
                 <a href="#">Menú Completo</a> |

@@ -19,6 +19,7 @@ export class CorreoService {
   }
 
  async enviarCorreoPedido(data: any) {
+  
   const templatePath = join(process.cwd(), 'src', 'template', 'correo.html');
     const templateHtml = fs.readFileSync(templatePath, 'utf8');
 
