@@ -5,6 +5,7 @@ export interface IAuthLogin {
 }
 export interface IAuthLoginResponse {
     access_token: string;
+    usuario?: IUsuario;
 }
 
 export interface RegisterDto {
@@ -15,7 +16,6 @@ export interface RegisterDto {
 export interface IUsuario {
   id: number;
     nombre: string;
-    apellido: string;
     correo: string;
     fechaCreacion: Date;
     estado?: {
