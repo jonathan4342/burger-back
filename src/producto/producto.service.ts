@@ -4,12 +4,13 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
+import {  Item, MenuData } from './producto.interface';
 
 @Injectable()
 export class ProductoService {
   constructor(private dataSource: DataSource) {}
 
-  async obtenerProductosAgrupados(): Promise<Record<string, any[]>> {
+  async obtenerProductosAgrupados(): Promise<MenuData> {
     const rawData = await this.dataSource.query(`
       SELECT 
         tp.descripcion AS tipo_producto,
@@ -27,12 +28,15 @@ export class ProductoService {
       GROUP BY tp.descripcion;
     `);
 
-    const resultado: Record<string, any[]> = {};
+    const resultado: Record<string, Item[]> = {};
+
 
     for (const fila of rawData) {
       resultado[fila.tipo_producto] = fila.productos;
     }
 
-    return resultado;
+    return resultado as unknown as MenuData;
+;
+
   }
 }

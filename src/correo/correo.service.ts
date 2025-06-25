@@ -27,7 +27,7 @@ export class CorreoService {
     const html = template(data);
 
   await this.resend.emails.send({
-    from: 'onboarding@resend.dev',
+    from: 'onboarding@lmcdigitalriver.online',
     to: data.clienteEmail,
     subject: 'Confirmación de Pedido 🍔',
     html,
